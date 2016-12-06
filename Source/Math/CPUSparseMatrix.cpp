@@ -645,6 +645,7 @@ void CPUSparseMatrix<ElemType>::SetMatrixFromCSCFormat(const CPUSPARSE_INDEX_TYP
     memcpy(NzValues(), h_Val, sizeof(ElemType)*nz);
 }
 
+#if 0 // add it back with test
 template <class ElemType>
 void CPUSparseMatrix<ElemType>::SetMatrixFromSBCFormat(const size_t* blockIds, const ElemType* val, const size_t numBlocks, const size_t numRows, const size_t numCols)
 {
@@ -658,6 +659,7 @@ void CPUSparseMatrix<ElemType>::SetMatrixFromSBCFormat(const size_t* blockIds, c
     memcpy(GetBlockIds(), blockIds, sizeof(size_t)*(numBlocks));
     memcpy(Data(), val, sizeof(ElemType)*numBlocks*numRows);
 }
+#endif
 
 template <class ElemType>
 ElemType* CPUSparseMatrix<ElemType>::Data()  const
@@ -989,7 +991,7 @@ void CPUSparseMatrix<ElemType>::MultiplyAndAdd(ElemType alpha, const CPUMatrix<E
 
         if (blockSizePrev == 0)
         {
-            c.RequireSizeAndAllocate(m, n, 1, true);
+            c.RequireSizeAndAllocate(m, n, 0, true); // allocate for blockIds
         }
 
         map<size_t, size_t> col2BlockId;
@@ -1030,7 +1032,7 @@ void CPUSparseMatrix<ElemType>::MultiplyAndAdd(ElemType alpha, const CPUMatrix<E
                 ElemType* results = c.Buffer() + col2BlockId[rhsRow] * m;
                 #pragma omp parallel for
                 for (int lhsRow = 0; lhsRow < (int)m; lhsRow++)
-                { // h range over hidden layer
+                {
                     results[lhsRow] += alpha * lhs((size_t)lhsRow, rhsCol) * val;
                 }
             }

@@ -4544,7 +4544,7 @@ void Matrix<ElemType>::MultiplyAndWeightedAdd(ElemType alpha, const Matrix<ElemT
                 }
                 else if (c.GetMatrixType() == MatrixType::SPARSE) // CPU, DENSE * SPARSE -> SPARSE
                 {
-                    if (beta != 0 || beta != 1)
+                    if (beta != 0 && beta != 1)
                     {
                         NOT_IMPLEMENTED;
                     }
@@ -4552,7 +4552,7 @@ void Matrix<ElemType>::MultiplyAndWeightedAdd(ElemType alpha, const Matrix<ElemT
                     {
                         if (beta == 0)
                         {
-                            c.Resize(c.GetNumRows(), c.GetNumCols(), 0);
+                            c.Reset();
                         }
                         CPUSparseMatrix<ElemType>::MultiplyAndAdd(alpha, *a.m_CPUMatrix, transposeA, *b.m_CPUSparseMatrix, transposeB, *c.m_CPUSparseMatrix);
                     }
@@ -4597,7 +4597,7 @@ void Matrix<ElemType>::MultiplyAndWeightedAdd(ElemType alpha, const Matrix<ElemT
             {
                 if (beta == 0)
                 {
-                    c.Resize(c.GetNumRows(), c.GetNumCols(), 0);
+                    c.Reset();
                 }
                 GPUSparseMatrix<ElemType>::MultiplyAndAdd(alpha, *a.m_GPUMatrix, transposeA, *b.m_GPUSparseMatrix, transposeB, *c.m_GPUSparseMatrix);
             }
