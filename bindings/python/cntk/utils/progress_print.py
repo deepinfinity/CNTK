@@ -52,6 +52,9 @@ class ProgressPrinter:
             if self.distributed_trainer != None:
                 self.logfilename = self.logfilename + "rank" + str(self.distributed_trainer.communicator().current_worker().global_rank)
 
+            # print to stdout
+            print("Redirecting log to file " + self.logfilename)
+
             with open(self.logfilename, "w") as logfile:
                 logfile.write(self.logfilename + "\n")
 
