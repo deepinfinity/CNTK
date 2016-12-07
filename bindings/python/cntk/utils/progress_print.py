@@ -21,6 +21,8 @@ class ProgressPrinter:
         printing will occur. The value of 0 means an geometric
         schedule (1,2,4,...). A value > 0 means a arithmetic schedule
         (freq, 2*freq, 3*freq,...), and a value of None means no per-minibatch log.
+        set log_to_file if you want the output to go file instead of stdout.
+        set distributed_trainer to your trainer if you are using distibuted parallelism -- each rank's log will go to seperate file.
         '''
         from sys import maxsize
         if freq is None:
