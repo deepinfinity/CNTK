@@ -110,7 +110,7 @@ class ProgressPrinter:
 
     def ___logprint(self, logline):
         if self.log_to_file == None:
-            # to stdout.  if distrubued, all ranks merge output into stdout
+            # to stdout.  if distributed, all ranks merge output into stdout
             print(logline)
         else:
             # to named file.  if distributed, one file per rank
